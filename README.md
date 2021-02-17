@@ -3,6 +3,6 @@
 
 Simple CRUD in Java.
 - material design styles
-- dynamic pages navigation
+- dynamic pages navigation with pre-loading
 - single page entities
 - jtable interactions
