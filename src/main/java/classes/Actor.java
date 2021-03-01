@@ -5,11 +5,16 @@
  */
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author thiag
  */
 public class Actor {
+    private String tableName = "actor";
     private int id;
     private String name;
     private String birthday;
@@ -20,6 +25,9 @@ public class Actor {
         this.name = name;
         this.birthday = birthday;
         this.height = height;
+    }
+
+    public Actor() {
     }
 
     public int getId() {
@@ -54,5 +62,10 @@ public class Actor {
         this.height = height;
     }
     
-    
+    public ResultSet index() throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("SELECT * FROM %s", tableName));
+        ResultSet rs = ps.executeQuery();
+
+        return rs;
+    }
 }

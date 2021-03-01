@@ -5,12 +5,17 @@
  */
 package com.mycompany.motaflix;
 
-import com.mycompany.motaflix.Screens.FormUser;
-import com.mycompany.motaflix.Screens.Home;
+import com.mysql.jdbc.Connection;
+import classes.DatabaseConnection;
+import screens.FormUser;
+import screens.Home;
 import mdlaf.*;
 import mdlaf.animation.*;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.border.EmptyBorder;
 import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialOceanicTheme;
@@ -23,7 +28,9 @@ import mdlaf.utils.MaterialColors;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+       
+
         try {
             MaterialLookAndFeel material = new MaterialLookAndFeel(new JMarsDarkTheme());
             UIManager.setLookAndFeel(material);
@@ -36,7 +43,6 @@ public class Main {
         frameForm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frameForm.setVisible(true);
 
-            
     }
 
 }

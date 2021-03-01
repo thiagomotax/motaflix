@@ -5,11 +5,16 @@
  */
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author thiag
  */
 public class Media {
+    private String tableName = "media";
     private int id;
     private String name;
     private String description;
@@ -21,6 +26,9 @@ public class Media {
         this.name = name;
         this.description = description;
         this.release = release;
+    }
+
+    public Media() {
     }
 
     public int getId() {
@@ -53,6 +61,13 @@ public class Media {
 
     public void setRelease(String release) {
         this.release = release;
+    }
+
+    public ResultSet index() throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("SELECT * FROM %s", tableName));
+        ResultSet rs = ps.executeQuery();
+
+        return rs;
     }
 
 }
