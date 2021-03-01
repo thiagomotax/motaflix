@@ -5,9 +5,13 @@
  */
 package classes;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -88,6 +92,52 @@ public class User {
         ResultSet rs = ps.executeQuery();
 
         return rs;
+    }
+    
+     public ResultSet delete(Integer id) throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("DELETE FROM %s WHERE id = ?", tableName));
+        ps.setInt(1, id);
+        
+        return null;
+    }
+
+    public ResultSet change(User user) throws SQLException, ParseException {
+        try {
+            if (user.getId() == -1) {
+                PreparedStatement ps = DatabaseConnection.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getCPF());
+
+                String dateString1 = user.getBirthday().replace("/", "-");
+                java.util.Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString1);
+
+                ps.setDate(3, new java.sql.Date(date.getTime()));
+
+                ps.setString(4, user.getEmail());
+                ps.setString(5, user.getPassword());
+                ps.setInt(6, 1);
+
+                ps.executeUpdate();
+            } else {
+                PreparedStatement ps = DatabaseConnection.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getCPF());
+                String dateString1 = user.getBirthday().replace("/", "-");
+                java.util.Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString1);
+                System.out.println("date" + date);
+                ps.setDate(3, new java.sql.Date(date.getTime()));
+                ps.setString(4, user.getEmail());
+                ps.setString(5, user.getPassword());
+                ps.setInt(6, 1);
+                ps.setInt(7, user.getId());
+                System.out.println(user.getId() + "id dessa porra");
+                ps.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e + "error");
+        }
+        return null;
     }
 
 }

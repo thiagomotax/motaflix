@@ -7,6 +7,10 @@ package screens;
 
 import classes.User;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -148,14 +152,25 @@ public class FormUser extends javax.swing.JPanel {
             showMessageDialog(this, "Por favor, preencha todos os campos!");
         } else if (this.selectedId == 0) { //create
             User user = new User(id++, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText());
-            addUser(user);
+            try {
+                addUser(user);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
             showMessageDialog(this, "Registro adicionado com sucesso!");
             this.clearFields();
             this.setVisibility(false);
         } else { //update
-            System.out.println("entrou em update");
             User user = new User(this.selectedId, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText());
-            editUser(user);
+            try {
+                editUser(user);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormUser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormUser.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.clearFields();
             this.setVisibility(false);
             showMessageDialog(this, "Registro alterado com sucesso!");
@@ -175,17 +190,21 @@ public class FormUser extends javax.swing.JPanel {
         fieldDate.setText("");
     }
 
-    public void addUser(User user) {
+    public void addUser(User user) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+        user.setId(-1);
+        user.change(user);
         model.addRow(new Object[]{user.getId(), user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});
     }
 
-    public void editUser(User user) {
+    public void editUser(User user) throws SQLException, ParseException {
         this.table.setValueAt(user.getName(), row, 1);
         this.table.setValueAt(user.getCPF(), row, 2);
         this.table.setValueAt(user.getBirthday(), row, 3);
         this.table.setValueAt(user.getEmail(), row, 4);
         this.table.setValueAt(user.getPassword(), row, 5);
+        user.setId((int) this.table.getModel().getValueAt(row, 0));
+        user.change(user);
 
     }
 
