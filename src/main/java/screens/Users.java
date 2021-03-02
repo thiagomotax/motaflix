@@ -51,7 +51,6 @@ public class Users extends javax.swing.JPanel {
     }
 
     private Users() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -64,8 +63,8 @@ public class Users extends javax.swing.JPanel {
     private void initComponents() {
 
         btnNew = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableUsers = new javax.swing.JTable();
@@ -83,14 +82,6 @@ public class Users extends javax.swing.JPanel {
         });
         add(btnNew);
 
-        btnDelete.setText("Excluir");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-        add(btnDelete);
-
         btnUpdate.setText("Editar");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +89,14 @@ public class Users extends javax.swing.JPanel {
             }
         });
         add(btnUpdate);
+
+        btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        add(btnDelete);
 
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
         jLabel1.setText("Usuários");
@@ -188,7 +187,6 @@ public class Users extends javax.swing.JPanel {
             User user = new User();
             DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
             user.delete((Integer) model.getValueAt(row, 0));
-            System.out.println("id" + (Integer) model.getValueAt(row, 0));
             int[] rows = tableUsers.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);

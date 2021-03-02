@@ -7,6 +7,10 @@ package screens;
 
 import classes.Media;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -128,13 +132,25 @@ public class FormMedia extends javax.swing.JPanel {
             showMessageDialog(this, "Por favor, preencha todos os campos!");
         } else if (this.selectedId == 0) { //create
             Media media = new Media(id++, this.fieldName.getText(), this.fieldDescription.getText(), this.fieldRelease.getText());
-            addMedia(media);
+            try {
+                addMedia(media);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormMedia.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormMedia.class.getName()).log(Level.SEVERE, null, ex);
+            }
             showMessageDialog(this, "Registro adicionado com sucesso!");
             this.clearFields();
             this.setVisibility(false);
         } else { //update
             Media media = new Media(this.selectedId, this.fieldName.getText(), this.fieldDescription.getText(), this.fieldRelease.getText());
-            editMedia(media);
+            try {
+                editMedia(media);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormMedia.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormMedia.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.clearFields();
             this.setVisibility(false);
             showMessageDialog(this, "Registro alterado com sucesso!");
@@ -152,16 +168,20 @@ public class FormMedia extends javax.swing.JPanel {
         fieldRelease.setText("");
     }
 
-    public void addMedia(Media media) {
+    public void addMedia(Media media) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-        model.addRow(new Object[]{media.getId(), media.getName(), media.getDescription(), media.getRelease()});
+        int insertedId = media.change(media);
+        
+        model.addRow(new Object[]{insertedId, media.getName(), media.getDescription(), media.getRelease()});
     }
 
-    public void editMedia(Media media) {
+    public void editMedia(Media media) throws SQLException, ParseException {
         this.table.setValueAt(media.getName(), row, 1);
         this.table.setValueAt(media.getName(), row, 2);
         this.table.setValueAt(media.getDescription(), row, 3);
         this.table.setValueAt(media.getRelease(), row, 3);
+        media.setId((int) this.table.getModel().getValueAt(row, 0));
+        media.change(media);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

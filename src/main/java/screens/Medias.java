@@ -23,6 +23,11 @@ import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import classes.Media;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -52,22 +57,53 @@ public class Medias extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableMedias = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        btnNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableMedias = new javax.swing.JTable();
 
-        setMaximumSize(new java.awt.Dimension(1200, 700));
-        setMinimumSize(new java.awt.Dimension(1200, 700));
-        setPreferredSize(new java.awt.Dimension(1366, 740));
+        setMaximumSize(null);
+        setMinimumSize(null);
+        setName(""); // NOI18N
+        setPreferredSize(null);
+        setVerifyInputWhenFocusTarget(false);
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(1920, 500));
+        btnUpdate.setText("Editar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        add(btnUpdate);
+
+        btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        add(btnDelete);
+
+        btnNew.setText("Nova mídia");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+        add(btnNew);
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setText("Mídias");
+        add(jLabel1);
 
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
+        jScrollPane1.setMaximumSize(null);
+        jScrollPane1.setMinimumSize(null);
+        jScrollPane1.setPreferredSize(null);
 
         tableMedias.setAutoCreateRowSorter(true);
         tableMedias.setModel(new javax.swing.table.DefaultTableModel(
@@ -96,82 +132,7 @@ public class Medias extends javax.swing.JPanel {
         tableMedias.setMaximumSize(null);
         jScrollPane1.setViewportView(tableMedias);
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel1.setText("Mídias");
-
-        btnNew.setText("Nova mídia");
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
-            }
-        });
-
-        btnUpdate.setText("Editar");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setText("Excluir");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(642, 642, 642)
-                        .addComponent(btnNew))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(654, 654, 654)
-                        .addComponent(btnUpdate))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(653, 653, 653)
-                        .addComponent(btnDelete)))
-                .addGap(642, 642, 642))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNew)
-                .addGap(0, 0, 0)
-                .addComponent(btnUpdate)
-                .addGap(0, 0, 0)
-                .addComponent(btnDelete))
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1369, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(240, Short.MAX_VALUE))
-        );
+        add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -200,12 +161,16 @@ public class Medias extends javax.swing.JPanel {
         // TODO add your handling code here:
         int row = tableMedias.getSelectedRow();
         if (row >= 0) {
-            deleteMedia(row);
+            try {
+                deleteMedia(row);
+            } catch (SQLException ex) {
+                Logger.getLogger(Medias.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             showMessageDialog(this, "Nenhum registro selecionado");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
-    public void deleteMedia(int row) {
+    public void deleteMedia(int row) throws SQLException {
         Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir a mídia?",
@@ -217,7 +182,9 @@ public class Medias extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
+            Media media = new Media();
             DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
+            media.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableMedias.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -230,7 +197,6 @@ public class Medias extends javax.swing.JPanel {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableMedias;
     // End of variables declaration//GEN-END:variables
@@ -242,7 +208,11 @@ public class Medias extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
 
         while (data.next()) {
-            model.addRow(new Object[]{data.getString("id"), data.getString("name"), data.getString("description"), data.getString("release")});
+            Date datax = data.getDate("release_date");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String text = df.format(datax);
+
+            model.addRow(new Object[]{data.getInt("id"), data.getString("name"), data.getString("description"), datax});
         }
     }
 
