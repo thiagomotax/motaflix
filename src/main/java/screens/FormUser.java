@@ -193,7 +193,6 @@ public class FormUser extends javax.swing.JPanel {
 
     public void addUser(User user) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-        user.setId(-1);
         int insertedId = user.change(user);
 
         model.addRow(new Object[]{insertedId, user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});

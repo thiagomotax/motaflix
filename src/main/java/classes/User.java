@@ -105,7 +105,7 @@ public class User {
     public int change(User user) throws SQLException, ParseException {
         PreparedStatement ps = null;
         try {
-            if (user.getId() == -1) {
+            if (user.getId() == 0) {
                 ps = DatabaseConnection.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getCPF());
