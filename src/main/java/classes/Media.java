@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
  * @author thiag
  */
 public class Media {
+
     private String tableName = "media";
     private int id;
     private String name;
@@ -72,7 +73,7 @@ public class Media {
         return rs;
     }
 
-      public ResultSet delete(Integer id) throws SQLException {
+    public ResultSet delete(Integer id) throws SQLException {
         PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM media WHERE id = ?");
         ps.setInt(1, id);
 
@@ -82,6 +83,7 @@ public class Media {
 
     public int change(Media media) throws SQLException, ParseException {
         PreparedStatement ps = null;
+        System.out.println("media" + media.getId());
         try {
             if (media.getId() == 0) {
                 ps = DatabaseConnection.connection().prepareStatement("INSERT INTO media (name, description, release_date) VALUES(?, ?, ?)");

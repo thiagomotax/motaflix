@@ -212,7 +212,7 @@ public class Medias extends javax.swing.JPanel {
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             String text = df.format(datax);
 
-            model.addRow(new Object[]{data.getInt("id"), data.getString("name"), data.getString("description"), datax});
+            model.addRow(new Object[]{data.getInt("id"), data.getString("name"), data.getString("description"), text});
         }
     }
 

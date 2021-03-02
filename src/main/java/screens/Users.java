@@ -141,6 +141,7 @@ public class Users extends javax.swing.JPanel {
         form.clearFields();
         form.setVisibility(true);
         form.setDefaultTitle();
+        form.selectedId = 0;
 
     }//GEN-LAST:event_btnNewActionPerformed
 

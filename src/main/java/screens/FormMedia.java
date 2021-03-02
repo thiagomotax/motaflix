@@ -170,8 +170,9 @@ public class FormMedia extends javax.swing.JPanel {
 
     public void addMedia(Media media) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
+        media.setId(0);
         int insertedId = media.change(media);
-        
+
         model.addRow(new Object[]{insertedId, media.getName(), media.getDescription(), media.getRelease()});
     }
 
