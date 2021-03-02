@@ -88,23 +88,25 @@ public class User {
     }
 
     public ResultSet index() throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("SELECT * FROM %s", tableName));
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM user");
         ResultSet rs = ps.executeQuery();
 
         return rs;
     }
-    
-     public ResultSet delete(Integer id) throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("DELETE FROM %s WHERE id = ?", tableName));
+
+    public ResultSet delete(Integer id) throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM user WHERE id = ?");
         ps.setInt(1, id);
-        
+
+        ps.executeUpdate();
         return null;
     }
 
-    public ResultSet change(User user) throws SQLException, ParseException {
+    public int change(User user) throws SQLException, ParseException {
+        PreparedStatement ps = null;
         try {
             if (user.getId() == -1) {
-                PreparedStatement ps = DatabaseConnection.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
+                ps = DatabaseConnection.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getCPF());
 
@@ -116,28 +118,29 @@ public class User {
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getPassword());
                 ps.setInt(6, 1);
-
-                ps.executeUpdate();
             } else {
-                PreparedStatement ps = DatabaseConnection.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
+                ps = DatabaseConnection.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getCPF());
                 String dateString1 = user.getBirthday().replace("/", "-");
                 java.util.Date date = new SimpleDateFormat("dd-MM-yyyy").parse(dateString1);
-                System.out.println("date" + date);
                 ps.setDate(3, new java.sql.Date(date.getTime()));
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getPassword());
                 ps.setInt(6, 1);
                 ps.setInt(7, user.getId());
-                System.out.println(user.getId() + "id dessa porra");
-                ps.executeUpdate();
             }
 
         } catch (SQLException e) {
             System.out.println(e + "error");
         }
-        return null;
+        ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        int idx = 0;
+        if (rs.next()) {
+            idx = rs.getInt(1);
+        }
+        return idx;
     }
 
 }

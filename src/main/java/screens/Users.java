@@ -188,6 +188,7 @@ public class Users extends javax.swing.JPanel {
             User user = new User();
             DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
             user.delete((Integer) model.getValueAt(row, 0));
+            System.out.println("id" + (Integer) model.getValueAt(row, 0));
             int[] rows = tableUsers.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);

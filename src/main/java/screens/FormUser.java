@@ -7,6 +7,7 @@ package screens;
 
 import classes.User;
 import java.awt.Color;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -193,8 +194,9 @@ public class FormUser extends javax.swing.JPanel {
     public void addUser(User user) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
         user.setId(-1);
-        user.change(user);
-        model.addRow(new Object[]{user.getId(), user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});
+        int insertedId = user.change(user);
+
+        model.addRow(new Object[]{insertedId, user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});
     }
 
     public void editUser(User user) throws SQLException, ParseException {
