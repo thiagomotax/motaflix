@@ -137,9 +137,9 @@ public class Medias extends javax.swing.JPanel {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         form.clearFields();
-        form.setVisibility(true);
+        form.selectedId = 0;
         form.setDefaultTitle();
-
+        form.setVisibility(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
 
