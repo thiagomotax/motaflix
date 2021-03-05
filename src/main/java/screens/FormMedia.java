@@ -83,7 +83,7 @@ public class FormMedia extends javax.swing.JPanel {
         jPanel1.setLayout(new java.awt.GridLayout(16, 1, 2, 2));
 
         formTitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        formTitle.setText("Cadastro de usuário");
+        formTitle.setText("Cadastro de mídia");
         jPanel1.add(formTitle);
         jPanel1.add(jLabel8);
 

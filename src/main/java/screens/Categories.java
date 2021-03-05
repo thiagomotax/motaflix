@@ -128,6 +128,7 @@ public class Categories extends javax.swing.JPanel {
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         form.clearFields();
         form.selectedId = 0;
+        form.setDefaultTitle();
         form.setVisibility(true);
         form.setDefaultTitle();
 
@@ -191,7 +192,7 @@ public class Categories extends javax.swing.JPanel {
 
         while (data.next()) {
             System.out.println(data);
-            model.addRow(new Object[]{data.getString("id"), data.getString("name")});
+            model.addRow(new Object[]{data.getInt("id"), data.getString("name")});
         }
     }
 

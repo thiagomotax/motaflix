@@ -7,6 +7,10 @@ package screens;
 
 import classes.Actor;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -138,13 +142,25 @@ public class FormActor extends javax.swing.JPanel {
             showMessageDialog(this, "Por favor, preencha todos os campos!");
         } else if (this.selectedId == 0) { //create
             Actor actor = new Actor(id++, this.fieldName.getText(), this.fieldDate.getText(), Float.valueOf(this.fieldHeight.getText()));
-            addActor(actor);
+            try {
+                addActor(actor);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormActor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormActor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             showMessageDialog(this, "Registro adicionado com sucesso!");
             this.clearFields();
             this.setVisibility(false);
         } else { //update
             Actor actor = new Actor(this.selectedId, this.fieldName.getText(), this.fieldDate.getText(), Float.valueOf(this.fieldHeight.getText()));
-            editActor(actor);
+            try {
+                editActor(actor);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormActor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormActor.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.clearFields();
             this.setVisibility(false);
             showMessageDialog(this, "Registro alterado com sucesso!");
@@ -162,24 +178,20 @@ public class FormActor extends javax.swing.JPanel {
         fieldDate.setText("");
     }
 
-    public static boolean isNumeric(String str) {
-        try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    public void addActor(Actor actor) {
+    public void addActor(Actor actor) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-        model.addRow(new Object[]{actor.getId(), actor.getName(), actor.getBirthday(), actor.getHeight()});
+        actor.setId(0);
+        int insertedId = actor.change(actor);
+
+        model.addRow(new Object[]{insertedId, actor.getName(), actor.getBirthday(), actor.getHeight()});
     }
 
-    public void editActor(Actor actor) {
+    public void editActor(Actor actor) throws SQLException, ParseException {
         this.table.setValueAt(actor.getName(), row, 1);
         this.table.setValueAt(actor.getBirthday(), row, 2);
         this.table.setValueAt(actor.getHeight(), row, 3);
+        actor.setId((int) this.table.getModel().getValueAt(row, 0));
+        actor.change(actor);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -207,6 +219,5 @@ public class FormActor extends javax.swing.JPanel {
 
     void setDefaultTitle() {
         this.formTitle.setText("Cadastro de Ator");
-
     }
 }

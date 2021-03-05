@@ -241,6 +241,5 @@ public class FormUser extends javax.swing.JPanel {
 
     void setDefaultTitle() {
         this.formTitle.setText("Cadastro de usuário");
-
     }
 }
