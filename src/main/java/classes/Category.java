@@ -8,6 +8,8 @@ package classes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -50,5 +52,39 @@ public class Category {
 
         return rs;
     }
+    
+     public ResultSet delete(Integer id) throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM category WHERE id = ?");
+        ps.setInt(1, id);
+
+        ps.executeUpdate();
+        return null;
+    }
+
+    public int change(Category category) throws SQLException, ParseException {
+        PreparedStatement ps = null;
+        System.out.println("category" + category.getId( ));
+        try {
+            if (category.getId() == 0) {
+                ps = DatabaseConnection.connection().prepareStatement("INSERT INTO category (name) VALUES(?)");
+                ps.setString(1, category.getName());
+            } else {
+                ps = DatabaseConnection.connection().prepareStatement("UPDATE category SET name = ? WHERE id = ?");
+                ps.setString(1, category.getName());
+                ps.setInt(2, category.getId());
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e + "error");
+        }
+        ps.executeUpdate();
+        ResultSet rs = ps.getGeneratedKeys();
+        int idx = 0;
+        if (rs.next()) {
+            idx = rs.getInt(1);
+        }
+        return idx;
+    }
+
 
 }

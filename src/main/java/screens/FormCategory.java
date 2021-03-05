@@ -7,6 +7,10 @@ package screens;
 
 import classes.Category;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -107,13 +111,25 @@ public class FormCategory extends javax.swing.JPanel {
             showMessageDialog(this, "Por favor, preencha todos os campos!");
         } else if (this.selectedId == 0) { //create
             Category category = new Category(id++, this.fieldName.getText());
-            addCategory(category);
+            try {
+                addCategory(category);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCategory.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormCategory.class.getName()).log(Level.SEVERE, null, ex);
+            }
             showMessageDialog(this, "Registro adicionado com sucesso!");
             this.clearFields();
             this.setVisibility(false);
         } else { //update
             Category category = new Category(this.selectedId, this.fieldName.getText());
-            editCategory(category);
+            try {
+                editCategory(category);
+            } catch (SQLException ex) {
+                Logger.getLogger(FormCategory.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                Logger.getLogger(FormCategory.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.clearFields();
             this.setVisibility(false);
             showMessageDialog(this, "Registro alterado com sucesso!");
@@ -129,13 +145,20 @@ public class FormCategory extends javax.swing.JPanel {
         fieldName.setText("");
     }
 
-    public void addCategory(Category category) {
+    public void addCategory(Category category) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
-        model.addRow(new Object[]{category.getId(), category.getName()});
+
+        category.setId(0);
+        int insertedId = category.change(category);
+
+        model.addRow(new Object[]{insertedId, category.getName()});
     }
 
-    public void editCategory(Category category) {
+    public void editCategory(Category category) throws SQLException, ParseException {
         this.table.setValueAt(category.getName(), row, 1);
+
+        category.setId((int) this.table.getModel().getValueAt(row, 0));
+        category.change(category);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

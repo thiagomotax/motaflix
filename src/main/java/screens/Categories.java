@@ -24,6 +24,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import classes.Category;
 import classes.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -53,16 +55,42 @@ public class Categories extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableCategories = new javax.swing.JTable();
         btnNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableCategories = new javax.swing.JTable();
 
-        setMaximumSize(new java.awt.Dimension(1200, 700));
-        setMinimumSize(new java.awt.Dimension(1200, 700));
-        setPreferredSize(new java.awt.Dimension(1366, 740));
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+
+        btnNew.setText("Nova categoria");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+        add(btnNew);
+
+        btnUpdate.setText("Editar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        add(btnUpdate);
+
+        btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        add(btnDelete);
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
+        jLabel1.setText("Categorias");
+        add(jLabel1);
 
         jScrollPane1.setOpaque(false);
         jScrollPane1.getViewport().setOpaque(false);
@@ -94,67 +122,15 @@ public class Categories extends javax.swing.JPanel {
         tableCategories.setMaximumSize(null);
         jScrollPane1.setViewportView(tableCategories);
 
-        btnNew.setText("Nova categoria");
-        btnNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewActionPerformed(evt);
-            }
-        });
-
-        btnUpdate.setText("Editar");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setText("Excluir");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 24)); // NOI18N
-        jLabel1.setText("Categorias");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNew)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(btnDelete)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnDelete)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnNew)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        add(jScrollPane1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         form.clearFields();
+        form.selectedId = 0;
         form.setVisibility(true);
         form.setDefaultTitle();
-        
+
     }//GEN-LAST:event_btnNewActionPerformed
 
 
@@ -176,13 +152,17 @@ public class Categories extends javax.swing.JPanel {
         // TODO add your handling code here:
         int row = tableCategories.getSelectedRow();
         if (row >= 0) {
-            deleteCategory(row);
+            try {
+                deleteCategory(row);
+            } catch (SQLException ex) {
+                Logger.getLogger(Categories.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             showMessageDialog(this, "Nenhum registro selecionado");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
-    public void deleteCategory(int row){
-         Object[] options = {"Sim, remover", "Cancelar!"};
+    public void deleteCategory(int row) throws SQLException {
+        Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir a categoria?",
                 "",
@@ -193,15 +173,17 @@ public class Categories extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
+            Category category = new Category();
             DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
+            category.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableCategories.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
             }
         }
     }
-    
-      private void initTableData() throws SQLException {
+
+    private void initTableData() throws SQLException {
         Category category = new Category();
         ResultSet data = category.index();
 
