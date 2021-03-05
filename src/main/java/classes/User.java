@@ -26,15 +26,35 @@ public class User {
     private String birthday;
     private String email;
     private String password;
+    private int parental_id;
 
-    public User(int id, String name, String CPF, String birthday, String email, String password) {
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public int getParental_id() {
+        return parental_id;
+    }
+
+    public void setParental_id(Integer parental_id) {
+        this.parental_id = parental_id;
+    }
+
+    public User(int id, String name, String CPF, String birthday, String email, String password, Integer parental_id) {
         this.id = id;
         this.name = name;
         this.CPF = CPF;
         this.birthday = birthday;
         this.email = email;
         this.password = password;
+        this.parental_id = parental_id;
     }
+
+ 
 
     public User() {
     }
@@ -118,7 +138,7 @@ public class User {
 
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getPassword());
-                ps.setInt(6, 1);
+                ps.setInt(6, user.getParental_id());
             } else {
                 ps = DatabaseConnection.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
                 ps.setString(1, user.getName());
@@ -128,7 +148,7 @@ public class User {
                 ps.setDate(3, new java.sql.Date(date.getTime()));
                 ps.setString(4, user.getEmail());
                 ps.setString(5, user.getPassword());
-                ps.setInt(6, 1);
+                ps.setInt(6, user.getParental_id());
                 ps.setInt(7, user.getId());
             }
 

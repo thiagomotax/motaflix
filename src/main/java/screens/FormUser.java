@@ -5,27 +5,31 @@
  */
 package screens;
 
+import classes.DatabaseConnection;
 import classes.User;
 import java.awt.Color;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import classes.Parental;
 
 /**
  *
  * @author thiag
  */
 public class FormUser extends javax.swing.JPanel {
-
+    
     final JDialog dialog;
     JTable table;
     private int id = 0;
@@ -35,8 +39,9 @@ public class FormUser extends javax.swing.JPanel {
     /**
      * Creates new form FormUser
      */
-    public FormUser(JFrame frame, JTable table) {
+    public FormUser(JFrame frame, JTable table) throws SQLException {
         initComponents();
+        loadParentalData();
         dialog = new JDialog(frame, "", true);
         dialog.getContentPane().add(this);
         dialog.setUndecorated(true);
@@ -85,6 +90,9 @@ public class FormUser extends javax.swing.JPanel {
         fieldEmail = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         fieldPassword = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jComboParentalList = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -93,7 +101,7 @@ public class FormUser extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(600, 400));
         setLayout(null);
 
-        jPanel1.setLayout(new java.awt.GridLayout(16, 1, 2, 2));
+        jPanel1.setLayout(new java.awt.GridLayout(18, 1, 2, 2));
 
         formTitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         formTitle.setText("Cadastro de usuário");
@@ -119,6 +127,12 @@ public class FormUser extends javax.swing.JPanel {
         jLabel5.setText("Senha");
         jPanel1.add(jLabel5);
         jPanel1.add(fieldPassword);
+        jPanel1.add(jLabel7);
+
+        jLabel9.setText("Tipo de controle parental");
+        jPanel1.add(jLabel9);
+
+        jPanel1.add(jComboParentalList);
         jPanel1.add(jLabel6);
 
         btnSave.setText("Salvar");
@@ -148,11 +162,13 @@ public class FormUser extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-
-        if (this.fieldName.getText().isEmpty() || this.fieldCPF.getText().isEmpty() || this.fieldDate.getText().isEmpty() || this.fieldEmail.getText().isEmpty() || this.fieldPassword.getText().isEmpty()) {
-            showMessageDialog(this, "Por favor, preencha todos os campos!");
+        Object item = this.jComboParentalList.getSelectedItem();
+        Integer value = ((Parental) item).getValue();
+        
+        if (this.fieldName.getText().isEmpty() || this.fieldCPF.getText().isEmpty() || this.fieldDate.getText().isEmpty() || this.fieldEmail.getText().isEmpty() || this.fieldPassword.getText().isEmpty() || value == 0) {
+            showMessageDialog(this, "Por favor, preencha todos os campos! \n Dev message: Lembre-se de ter registros na tabela\nParental para serem selecionados\nno ComboBox de controle parental");
         } else if (this.selectedId == 0) { //create
-            User user = new User(id++, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText());
+            User user = new User(id++, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText(), 0);
             try {
                 addUser(user);
             } catch (SQLException ex) {
@@ -164,7 +180,7 @@ public class FormUser extends javax.swing.JPanel {
             this.clearFields();
             this.setVisibility(false);
         } else { //update
-            User user = new User(this.selectedId, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText());
+            User user = new User(this.selectedId, this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText(), 0);
             try {
                 editUser(user);
             } catch (SQLException ex) {
@@ -182,7 +198,7 @@ public class FormUser extends javax.swing.JPanel {
     public void setVisibility(Boolean value) {
         this.dialog.setVisible(value);
     }
-
+    
     public void clearFields() {
         fieldCPF.setText("");
         fieldEmail.setText("");
@@ -190,16 +206,25 @@ public class FormUser extends javax.swing.JPanel {
         fieldName.setText("");
         fieldDate.setText("");
     }
-
+    
     public void addUser(User user) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
         user.setId(0);
+        
+        Object item = this.jComboParentalList.getSelectedItem();
+        Integer value = ((Parental) item).getValue();
+        user.setParental_id(value);
         int insertedId = user.change(user);
-
+        
         model.addRow(new Object[]{insertedId, user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});
     }
-
+    
     public void editUser(User user) throws SQLException, ParseException {
+        
+        Object item = this.jComboParentalList.getSelectedItem();
+        Integer value = ((Parental) item).getValue();
+        user.setParental_id(value);
+        
         this.table.setValueAt(user.getName(), row, 1);
         this.table.setValueAt(user.getCPF(), row, 2);
         this.table.setValueAt(user.getBirthday(), row, 3);
@@ -207,7 +232,7 @@ public class FormUser extends javax.swing.JPanel {
         this.table.setValueAt(user.getPassword(), row, 5);
         user.setId((int) this.table.getModel().getValueAt(row, 0));
         user.change(user);
-
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -219,13 +244,16 @@ public class FormUser extends javax.swing.JPanel {
     private javax.swing.JPasswordField fieldPassword;
     private javax.swing.JLabel formTitle;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<Object> jComboParentalList;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
@@ -238,8 +266,19 @@ public class FormUser extends javax.swing.JPanel {
         fieldEmail.setText(tableUsers.getModel().getValueAt(row, 4).toString());
         fieldPassword.setText(tableUsers.getModel().getValueAt(row, 5).toString());
     }
-
+    
     void setDefaultTitle() {
         this.formTitle.setText("Cadastro de usuário");
+    }
+    
+    private ResultSet loadParentalData() throws SQLException {
+        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM parental");
+        ResultSet rs = ps.executeQuery();
+        
+        while (rs.next()) {
+            this.jComboParentalList.addItem(new Parental(rs.getString("name"), rs.getInt("id")));
+        }
+        
+        return rs;
     }
 }
