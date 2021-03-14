@@ -5,6 +5,7 @@
  */
 package screens;
 
+import dao.UserDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -22,8 +23,8 @@ import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import classes.Media;
-import classes.User;
+import models.Media;
+import models.User;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,12 +40,14 @@ public class Users extends javax.swing.JPanel {
 
     private JFrame frame;
     FormUser form;
+    UserDAO userDAO;
 
     /**
      * Creates new form Usersx
      */
     public Users(JFrame frame) throws SQLException, ParseException {
         this.frame = frame;
+        userDAO = new UserDAO();
         initComponents();
         initTableData();
         form = new FormUser(frame, this.tableUsers);
@@ -184,9 +187,8 @@ public class Users extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
-            User user = new User();
             DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
-            user.delete((Integer) model.getValueAt(row, 0));
+            userDAO.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableUsers.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -195,8 +197,7 @@ public class Users extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException, ParseException {
-        User user = new User();
-        ResultSet data = user.index();
+        ResultSet data = userDAO.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
 

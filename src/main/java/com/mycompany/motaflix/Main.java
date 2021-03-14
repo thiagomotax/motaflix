@@ -6,7 +6,7 @@
 package com.mycompany.motaflix;
 
 import com.mysql.jdbc.Connection;
-import classes.DatabaseConnection;
+import models.DatabaseConnection;
 import screens.FormUser;
 import screens.Home;
 import mdlaf.*;
@@ -16,6 +16,7 @@ import java.awt.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import javax.swing.border.EmptyBorder;
 import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialOceanicTheme;
@@ -28,7 +29,7 @@ import mdlaf.utils.MaterialColors;
  */
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ParseException {
        
 
         try {

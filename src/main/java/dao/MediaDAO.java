@@ -3,87 +3,48 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package classes;
+package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import models.DatabaseConnection;
+import models.Media;
 
 /**
  *
- * @author thiag
+ * @author T-Gamer
  */
-public class Media {
-
-    private String tableName = "media";
-    private int id;
-    private String name;
-    private String description;
-    private String release;
-    //include categories,actors, etc
-
-    public Media(int id, String name, String description, String release) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.release = release;
-    }
-
-    public Media() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getRelease() {
-        return release;
-    }
-
-    public void setRelease(String release) {
-        this.release = release;
-    }
+public class MediaDAO {
 
     public ResultSet index() throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("SELECT * FROM %s", tableName));
-        ResultSet rs = ps.executeQuery();
+        try {
+            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM media");
+            ResultSet rs = ps.executeQuery();
 
-        return rs;
+            return rs;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
 
     public ResultSet delete(Integer id) throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM media WHERE id = ?");
-        ps.setInt(1, id);
+        try {
+            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM media WHERE id = ?");
+            ps.setInt(1, id);
 
-        ps.executeUpdate();
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         return null;
     }
 
     public int change(Media media) throws SQLException, ParseException {
         PreparedStatement ps = null;
-        System.out.println("media" + media.getId());
         try {
             if (media.getId() == 0) {
                 ps = DatabaseConnection.connection().prepareStatement("INSERT INTO media (name, description, release_date) VALUES(?, ?, ?)");

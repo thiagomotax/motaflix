@@ -5,6 +5,7 @@
  */
 package screens;
 
+import dao.MediaDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -22,7 +23,7 @@ import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import classes.Media;
+import models.Media;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,12 +38,14 @@ public class Medias extends javax.swing.JPanel {
 
     private JFrame frame;
     FormMedia form;
+    MediaDAO mediaDAO;
 
     /**
      * Creates new form Medias
      */
     public Medias(JFrame frame) throws SQLException {
         this.frame = frame;
+        mediaDAO = new MediaDAO();
         initComponents();
         initTableData();
         form = new FormMedia(frame, this.tableMedias);
@@ -182,9 +185,8 @@ public class Medias extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
-            Media media = new Media();
             DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
-            media.delete((Integer) model.getValueAt(row, 0));
+            mediaDAO.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableMedias.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -202,8 +204,7 @@ public class Medias extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void initTableData() throws SQLException {
-        Media media = new Media();
-        ResultSet data = media.index();
+        ResultSet data = mediaDAO.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
 

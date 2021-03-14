@@ -5,6 +5,7 @@
  */
 package screens;
 
+import dao.ActorDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -22,7 +23,7 @@ import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import classes.Actor;
+import models.Actor;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,12 +38,14 @@ public class Actors extends javax.swing.JPanel {
 
     private JFrame frame;
     FormActor form;
+    ActorDAO actorDAO;
 
     /**
      * Creates new form Usersx
      */
     public Actors(JFrame frame) throws SQLException {
         this.frame = frame;
+        actorDAO = new ActorDAO();
         initComponents();
         initTableData();
         form = new FormActor(frame, this.tableActors);
@@ -176,9 +179,8 @@ public class Actors extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
-            Actor actor = new Actor();
             DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
-            actor.delete((Integer) model.getValueAt(row, 0));
+            actorDAO.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableActors.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -187,8 +189,7 @@ public class Actors extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        Actor actor = new Actor();
-        ResultSet data = actor.index();
+        ResultSet data = actorDAO.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
 

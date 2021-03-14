@@ -5,7 +5,8 @@
  */
 package screens;
 
-import classes.Category;
+import dao.CategoryDAO;
+import models.Category;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -30,6 +31,7 @@ public class FormCategory extends javax.swing.JPanel {
     private int id = 0;
     public int selectedId = 0;
     public int row = 0;
+    CategoryDAO categoryDAO;
 
     /**
      * Creates new form FormCategory
@@ -43,6 +45,7 @@ public class FormCategory extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(frame);
         this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         this.table = table;
+        categoryDAO = new CategoryDAO();
     }
 
     /**
@@ -149,7 +152,7 @@ public class FormCategory extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
 
         category.setId(0);
-        int insertedId = category.change(category);
+        int insertedId = categoryDAO.change(category);
 
         model.addRow(new Object[]{insertedId, category.getName()});
     }
@@ -158,7 +161,7 @@ public class FormCategory extends javax.swing.JPanel {
         this.table.setValueAt(category.getName(), row, 1);
 
         category.setId((int) this.table.getModel().getValueAt(row, 0));
-        category.change(category);
+        categoryDAO.change(category);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

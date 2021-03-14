@@ -5,7 +5,8 @@
  */
 package screens;
 
-import classes.Actor;
+import dao.ActorDAO;
+import models.Actor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -30,6 +31,7 @@ public class FormActor extends javax.swing.JPanel {
     private int id = 0;
     public int selectedId = 0;
     public int row = 0;
+    ActorDAO actorDAO;
 
     /**
      * Creates new form FormActor
@@ -43,6 +45,7 @@ public class FormActor extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(frame);
         this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         this.table = table;
+        actorDAO = new ActorDAO();
     }
 
     /**
@@ -181,7 +184,7 @@ public class FormActor extends javax.swing.JPanel {
     public void addActor(Actor actor) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
         actor.setId(0);
-        int insertedId = actor.change(actor);
+        int insertedId = actorDAO.change(actor);
 
         model.addRow(new Object[]{insertedId, actor.getName(), actor.getBirthday(), actor.getHeight()});
     }
@@ -191,7 +194,7 @@ public class FormActor extends javax.swing.JPanel {
         this.table.setValueAt(actor.getBirthday(), row, 2);
         this.table.setValueAt(actor.getHeight(), row, 3);
         actor.setId((int) this.table.getModel().getValueAt(row, 0));
-        actor.change(actor);
+        actorDAO.change(actor);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

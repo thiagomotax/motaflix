@@ -5,6 +5,7 @@
  */
 package screens;
 
+import dao.CategoryDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -22,8 +23,8 @@ import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import classes.Category;
-import classes.User;
+import models.Category;
+import models.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,12 +36,14 @@ public class Categories extends javax.swing.JPanel {
 
     private JFrame frame;
     FormCategory form;
+    CategoryDAO categoryDAO;
 
     /**
      * Creates new form Categories
      */
     public Categories(JFrame frame) throws SQLException {
         this.frame = frame;
+        categoryDAO = new CategoryDAO();
         initComponents();
         initTableData();
         form = new FormCategory(frame, this.tableCategories);
@@ -131,7 +134,6 @@ public class Categories extends javax.swing.JPanel {
         form.setDefaultTitle();
         form.setVisibility(true);
         form.setDefaultTitle();
-
     }//GEN-LAST:event_btnNewActionPerformed
 
 
@@ -174,9 +176,8 @@ public class Categories extends javax.swing.JPanel {
                 options[0]);
 
         if (n == JOptionPane.YES_OPTION) {
-            Category category = new Category();
             DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
-            category.delete((Integer) model.getValueAt(row, 0));
+            categoryDAO.delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableCategories.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -185,8 +186,7 @@ public class Categories extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        Category category = new Category();
-        ResultSet data = category.index();
+        ResultSet data = categoryDAO.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
 

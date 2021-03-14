@@ -5,8 +5,9 @@
  */
 package screens;
 
-import classes.DatabaseConnection;
-import classes.User;
+import dao.UserDAO;
+import models.DatabaseConnection;
+import models.User;
 import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-import classes.Parental;
+import models.Parental;
 
 /**
  *
@@ -35,6 +36,7 @@ public class FormUser extends javax.swing.JPanel {
     private int id = 0;
     public int selectedId = 0;
     public int row = 0;
+    UserDAO userDAO;
 
     /**
      * Creates new form FormUser
@@ -49,6 +51,7 @@ public class FormUser extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(frame);
         this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         this.table = table;
+        userDAO = new UserDAO();
     }
 
     /**
@@ -214,7 +217,7 @@ public class FormUser extends javax.swing.JPanel {
         Object item = this.jComboParentalList.getSelectedItem();
         Integer value = ((Parental) item).getValue();
         user.setParental_id(value);
-        int insertedId = user.change(user);
+        int insertedId = userDAO.change(user);
         
         model.addRow(new Object[]{insertedId, user.getName(), user.getCPF(), user.getBirthday(), user.getEmail(), user.getPassword()});
     }
@@ -231,7 +234,7 @@ public class FormUser extends javax.swing.JPanel {
         this.table.setValueAt(user.getEmail(), row, 4);
         this.table.setValueAt(user.getPassword(), row, 5);
         user.setId((int) this.table.getModel().getValueAt(row, 0));
-        user.change(user);
+        userDAO.change(user);
         
     }
 

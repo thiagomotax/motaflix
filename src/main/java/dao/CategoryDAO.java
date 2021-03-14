@@ -3,67 +3,46 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package classes;
+package dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import models.Category;
+import models.DatabaseConnection;
 
 /**
  *
- * @author thiag
+ * @author T-Gamer
  */
-public class Category {
-
-    private String tableName = "category";
-
-    private int id;
-    private String name;
-
-    public Category(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Category() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+public class CategoryDAO {
 
     public ResultSet index() throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement(String.format("SELECT * FROM %s", tableName));
-        ResultSet rs = ps.executeQuery();
-
-        return rs;
+        try {
+            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM category");
+            ResultSet rs = ps.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return null;
     }
-    
-     public ResultSet delete(Integer id) throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM category WHERE id = ?");
-        ps.setInt(1, id);
 
-        ps.executeUpdate();
+    public ResultSet delete(Integer id) throws SQLException {
+        try {
+            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM category WHERE id = ?");
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return null;
     }
 
     public int change(Category category) throws SQLException, ParseException {
         PreparedStatement ps = null;
-        System.out.println("category" + category.getId( ));
         try {
             if (category.getId() == 0) {
                 ps = DatabaseConnection.connection().prepareStatement("INSERT INTO category (name) VALUES(?)");
@@ -85,6 +64,5 @@ public class Category {
         }
         return idx;
     }
-
 
 }
