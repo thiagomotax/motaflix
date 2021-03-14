@@ -20,7 +20,7 @@ public class ActorDAO {
 
     private static ActorDAO instance;
 
-    public static ActorDAO getInstance(String value) {
+    public static ActorDAO getInstance() {
         if (instance == null) {
             instance = new ActorDAO();
         }

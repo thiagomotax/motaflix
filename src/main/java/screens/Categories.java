@@ -36,14 +36,12 @@ public class Categories extends javax.swing.JPanel {
 
     private JFrame frame;
     FormCategory form;
-    CategoryDAO categoryDAO;
 
     /**
      * Creates new form Categories
      */
     public Categories(JFrame frame) throws SQLException {
         this.frame = frame;
-        categoryDAO = new CategoryDAO();
         initComponents();
         initTableData();
         form = new FormCategory(frame, this.tableCategories);
@@ -177,7 +175,7 @@ public class Categories extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
-            categoryDAO.delete((Integer) model.getValueAt(row, 0));
+            CategoryDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableCategories.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -186,7 +184,7 @@ public class Categories extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        ResultSet data = categoryDAO.index();
+        ResultSet data = CategoryDAO.getInstance().index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
 

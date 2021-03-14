@@ -40,14 +40,12 @@ public class Users extends javax.swing.JPanel {
 
     private JFrame frame;
     FormUser form;
-    UserDAO userDAO;
 
     /**
      * Creates new form Usersx
      */
     public Users(JFrame frame) throws SQLException, ParseException {
         this.frame = frame;
-        userDAO = new UserDAO();
         initComponents();
         initTableData();
         form = new FormUser(frame, this.tableUsers);
@@ -188,7 +186,7 @@ public class Users extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
-            userDAO.delete((Integer) model.getValueAt(row, 0));
+            UserDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableUsers.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -197,7 +195,7 @@ public class Users extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException, ParseException {
-        ResultSet data = userDAO.index();
+        ResultSet data = UserDAO.getInstance().index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
 

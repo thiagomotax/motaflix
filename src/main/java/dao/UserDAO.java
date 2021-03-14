@@ -20,7 +20,7 @@ public class UserDAO {
 
     private static UserDAO instance;
 
-    public static UserDAO getInstance(String value) {
+    public static UserDAO getInstance() {
         if (instance == null) {
             instance = new UserDAO();
         }

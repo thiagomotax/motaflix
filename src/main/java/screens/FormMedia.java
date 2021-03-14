@@ -31,7 +31,6 @@ public class FormMedia extends javax.swing.JPanel {
     private int id = 0;
     public int selectedId = 0;
     public int row = 0;
-    MediaDAO mediaDAO;
 
     /**
      * Creates new form FormMedia
@@ -45,7 +44,6 @@ public class FormMedia extends javax.swing.JPanel {
         dialog.setLocationRelativeTo(frame);
         this.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
         this.table = table;
-        mediaDAO = new MediaDAO();
         
     }
 
@@ -175,7 +173,7 @@ public class FormMedia extends javax.swing.JPanel {
     public void addMedia(Media media) throws SQLException, ParseException {
         DefaultTableModel model = (DefaultTableModel) this.table.getModel();
         media.setId(0);
-        int insertedId = mediaDAO.change(media);
+        int insertedId = MediaDAO.getInstance().change(media);
 
         model.addRow(new Object[]{insertedId, media.getName(), media.getDescription(), media.getRelease()});
     }
@@ -186,7 +184,7 @@ public class FormMedia extends javax.swing.JPanel {
         this.table.setValueAt(media.getDescription(), row, 3);
         this.table.setValueAt(media.getRelease(), row, 3);
         media.setId((int) this.table.getModel().getValueAt(row, 0));
-        mediaDAO.change(media);
+        MediaDAO.getInstance().change(media);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

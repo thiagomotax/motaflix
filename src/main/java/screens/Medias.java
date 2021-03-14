@@ -38,14 +38,12 @@ public class Medias extends javax.swing.JPanel {
 
     private JFrame frame;
     FormMedia form;
-    MediaDAO mediaDAO;
 
     /**
      * Creates new form Medias
      */
     public Medias(JFrame frame) throws SQLException {
         this.frame = frame;
-        mediaDAO = new MediaDAO();
         initComponents();
         initTableData();
         form = new FormMedia(frame, this.tableMedias);
@@ -186,7 +184,7 @@ public class Medias extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
-            mediaDAO.delete((Integer) model.getValueAt(row, 0));
+            MediaDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableMedias.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -204,7 +202,7 @@ public class Medias extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void initTableData() throws SQLException {
-        ResultSet data = mediaDAO.index();
+        ResultSet data = MediaDAO.getInstance().index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
 

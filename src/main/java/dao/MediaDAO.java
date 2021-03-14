@@ -20,7 +20,7 @@ public class MediaDAO {
 
     private static MediaDAO instance;
 
-    public static MediaDAO getInstance(String value) {
+    public static MediaDAO getInstance() {
         if (instance == null) {
             instance = new MediaDAO();
         }

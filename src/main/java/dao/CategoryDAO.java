@@ -19,7 +19,7 @@ public class CategoryDAO {
 
     private static CategoryDAO instance;
 
-    public static CategoryDAO getInstance(String value) {
+    public static CategoryDAO getInstance() {
         if (instance == null) {
             instance = new CategoryDAO();
         }

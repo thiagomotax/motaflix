@@ -38,14 +38,12 @@ public class Actors extends javax.swing.JPanel {
 
     private JFrame frame;
     FormActor form;
-    ActorDAO actorDAO;
 
     /**
      * Creates new form Usersx
      */
     public Actors(JFrame frame) throws SQLException {
         this.frame = frame;
-        actorDAO = new ActorDAO();
         initComponents();
         initTableData();
         form = new FormActor(frame, this.tableActors);
@@ -180,7 +178,7 @@ public class Actors extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
-            actorDAO.delete((Integer) model.getValueAt(row, 0));
+            ActorDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
             int[] rows = tableActors.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
@@ -189,7 +187,7 @@ public class Actors extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        ResultSet data = actorDAO.index();
+        ResultSet data = ActorDAO.getInstance().index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
 
