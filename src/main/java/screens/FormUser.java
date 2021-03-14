@@ -6,7 +6,7 @@
 package screens;
 
 import dao.UserDAO;
-import models.DatabaseConnection;
+import dao.DatabaseConnectionDAO;
 import models.User;
 import java.awt.Color;
 import java.sql.PreparedStatement;
@@ -275,7 +275,7 @@ public class FormUser extends javax.swing.JPanel {
     }
     
     private ResultSet loadParentalData() throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM parental");
+        PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM parental");
         ResultSet rs = ps.executeQuery();
         
         while (rs.next()) {

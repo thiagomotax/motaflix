@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import models.Category;
-import models.DatabaseConnection;
 
 /**
  *
@@ -20,7 +19,7 @@ public class CategoryDAO {
 
     public ResultSet index() throws SQLException {
         try {
-            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM category");
+            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM category");
             ResultSet rs = ps.executeQuery();
             return rs;
         } catch (SQLException e) {
@@ -29,26 +28,25 @@ public class CategoryDAO {
         return null;
     }
 
-    public ResultSet delete(Integer id) throws SQLException {
+    public void delete(int id) throws SQLException {
         try {
-            PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM category WHERE id = ?");
+            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("DELETE FROM category WHERE id = ?");
             ps.setInt(1, id);
 
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         }
-        return null;
     }
 
     public int change(Category category) throws SQLException, ParseException {
         PreparedStatement ps = null;
         try {
             if (category.getId() == 0) {
-                ps = DatabaseConnection.connection().prepareStatement("INSERT INTO category (name) VALUES(?)");
+                ps = DatabaseConnectionDAO.connection().prepareStatement("INSERT INTO category (name) VALUES(?)");
                 ps.setString(1, category.getName());
             } else {
-                ps = DatabaseConnection.connection().prepareStatement("UPDATE category SET name = ? WHERE id = ?");
+                ps = DatabaseConnectionDAO.connection().prepareStatement("UPDATE category SET name = ? WHERE id = ?");
                 ps.setString(1, category.getName());
                 ps.setInt(2, category.getId());
             }
@@ -65,4 +63,4 @@ public class CategoryDAO {
         return idx;
     }
 
-}
+ }

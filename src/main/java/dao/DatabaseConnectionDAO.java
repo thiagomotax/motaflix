@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package dao;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
@@ -13,11 +13,11 @@ import java.sql.SQLException;
  *
  * @author T-Gamer
  */
-public class DatabaseConnection {
+public class DatabaseConnectionDAO {
 
     private static Connection conn = null;
 
-    private DatabaseConnection() {
+    private DatabaseConnectionDAO() {
         String url = "jdbc:mysql://localhost:3306/motaflix";
         String user = "root";
         String pass = "";
@@ -32,7 +32,7 @@ public class DatabaseConnection {
 
     public static Connection connection() {
         if(conn == null)
-            new DatabaseConnection();
+            new DatabaseConnectionDAO();
         return conn;
     }
 }

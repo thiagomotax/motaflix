@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import models.DatabaseConnection;
 import models.User;
 
 /**
@@ -18,27 +17,36 @@ import models.User;
  * @author T-Gamer
  */
 public class UserDAO {
-    public ResultSet index() throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("SELECT * FROM user");
-        ResultSet rs = ps.executeQuery();
 
-        return rs;
+    public ResultSet index() throws SQLException {
+        try {
+            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM user");
+            ResultSet rs = ps.executeQuery();
+
+            return rs;
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return null;
     }
 
-    public ResultSet delete(Integer id) throws SQLException {
-        PreparedStatement ps = DatabaseConnection.connection().prepareStatement("DELETE FROM user WHERE id = ?");
-        ps.setInt(1, id);
+    public void delete(Integer id) throws SQLException {
+        try {
+            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("DELETE FROM user WHERE id = ?");
+            ps.setInt(1, id);
 
-        ps.executeUpdate();
-        return null;
+            ps.executeUpdate();
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     public int change(User user) throws SQLException, ParseException {
         PreparedStatement ps = null;
-        System.out.println("user" + user.getId( ));
         try {
             if (user.getId() == 0) {
-                ps = DatabaseConnection.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
+                ps = DatabaseConnectionDAO.connection().prepareStatement("INSERT INTO user (name, cpf, birthday, email, password, parental_id) VALUES(?, ?, ?, ?, ?, ?)");
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getCPF());
 
@@ -51,7 +59,7 @@ public class UserDAO {
                 ps.setString(5, user.getPassword());
                 ps.setInt(6, user.getParental_id());
             } else {
-                ps = DatabaseConnection.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
+                ps = DatabaseConnectionDAO.connection().prepareStatement("UPDATE user SET name = ?, cpf = ?, birthday = ?, email = ?, password = ?, parental_id = ? WHERE id = ?");
                 ps.setString(1, user.getName());
                 ps.setString(2, user.getCPF());
                 String dateString1 = user.getBirthday().replace("/", "-");

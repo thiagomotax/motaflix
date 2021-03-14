@@ -6,7 +6,7 @@
 package com.mycompany.motaflix;
 
 import com.mysql.jdbc.Connection;
-import models.DatabaseConnection;
+import dao.DatabaseConnectionDAO;
 import screens.FormUser;
 import screens.Home;
 import mdlaf.*;
