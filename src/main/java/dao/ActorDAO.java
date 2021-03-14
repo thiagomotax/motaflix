@@ -18,6 +18,18 @@ import models.Actor;
  */
 public class ActorDAO {
 
+    private static ActorDAO instance;
+
+    public static ActorDAO getInstance(String value) {
+        if (instance == null) {
+            instance = new ActorDAO();
+        }
+        return instance;
+    }
+
+    public ActorDAO() {
+    }
+
     public ResultSet index() throws SQLException {
         try {
             PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM actor");

@@ -17,6 +17,18 @@ import models.Category;
  */
 public class CategoryDAO {
 
+    private static CategoryDAO instance;
+
+    public static CategoryDAO getInstance(String value) {
+        if (instance == null) {
+            instance = new CategoryDAO();
+        }
+        return instance;
+    }
+
+    public CategoryDAO() {
+    }
+
     public ResultSet index() throws SQLException {
         try {
             PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM category");
@@ -63,4 +75,4 @@ public class CategoryDAO {
         return idx;
     }
 
- }
+}

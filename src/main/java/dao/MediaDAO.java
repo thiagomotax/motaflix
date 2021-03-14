@@ -18,6 +18,18 @@ import models.Media;
  */
 public class MediaDAO {
 
+    private static MediaDAO instance;
+
+    public static MediaDAO getInstance(String value) {
+        if (instance == null) {
+            instance = new MediaDAO();
+        }
+        return instance;
+    }
+
+    public MediaDAO() {
+    }
+
     public ResultSet index() throws SQLException {
         try {
             PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM media");

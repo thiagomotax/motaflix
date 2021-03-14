@@ -18,6 +18,18 @@ import models.User;
  */
 public class UserDAO {
 
+    private static UserDAO instance;
+
+    public static UserDAO getInstance(String value) {
+        if (instance == null) {
+            instance = new UserDAO();
+        }
+        return instance;
+    }
+
+    public UserDAO() {
+    }
+
     public ResultSet index() throws SQLException {
         try {
             PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("SELECT * FROM user");
@@ -37,7 +49,7 @@ public class UserDAO {
             ps.setInt(1, id);
 
             ps.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
