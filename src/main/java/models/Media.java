@@ -31,6 +31,9 @@ public class Media {
         this.release = release;
     }
 
+    public Media() {
+    }
+
     public int getId() {
         return id;
     }

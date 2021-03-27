@@ -37,6 +37,9 @@ public class User {
         this.parental_id = parental_id;
     }
 
+    public User() {
+    }
+
     public int getParental_id() {
         return parental_id;
     }

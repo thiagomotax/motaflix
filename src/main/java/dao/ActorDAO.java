@@ -43,7 +43,7 @@ public class ActorDAO {
 
     public void delete(Integer id) throws SQLException {
         try {
-            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("DELETE actor user WHERE id = ?");
+            PreparedStatement ps = DatabaseConnectionDAO.connection().prepareStatement("DELETE FROM actor WHERE id = ?");
             ps.setInt(1, id);
 
             ps.executeUpdate();

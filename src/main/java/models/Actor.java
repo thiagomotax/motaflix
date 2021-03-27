@@ -29,6 +29,9 @@ public class Actor {
         this.height = height;
     }
 
+    public Actor() {
+    }
+
     public int getId() {
         return id;
     }

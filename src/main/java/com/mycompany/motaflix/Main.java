@@ -7,8 +7,8 @@ package com.mycompany.motaflix;
 
 import com.mysql.jdbc.Connection;
 import dao.DatabaseConnectionDAO;
-import screens.FormUser;
-import screens.Home;
+import views.FormUser;
+import views.Home;
 import mdlaf.*;
 import mdlaf.animation.*;
 import javax.swing.*;
