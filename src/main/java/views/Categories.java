@@ -24,8 +24,6 @@ import javax.swing.UIManager;
 import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import models.Category;
-import models.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
