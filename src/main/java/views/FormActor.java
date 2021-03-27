@@ -137,9 +137,11 @@ public class FormActor extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
+        String auxDate = this.fieldDate.getText().replace("/", "").replace("_", "");
+        String auxHeight = this.fieldHeight.getText().replace(".", "");
 
-        if (this.fieldName.getText().isEmpty() || this.fieldDate.getText().isEmpty() || this.fieldHeight.getText().isEmpty()) {
-            showMessageDialog(this, "Por favor, preencha todos os campos!");
+        if (this.fieldName.getText().isEmpty() || auxDate.isEmpty() || auxDate.length() < 8 || auxHeight.isEmpty() || auxHeight.length() < 3) {
+            showMessageDialog(this, "Por favor, preencha todos os campos corretamente!");
         } else if (this.selectedId == 0) {
             try {
                 addActor(this.fieldName.getText(), this.fieldDate.getText(), this.fieldHeight.getText());

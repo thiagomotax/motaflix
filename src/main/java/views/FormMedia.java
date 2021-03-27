@@ -128,9 +128,9 @@ public class FormMedia extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-
-        if (this.fieldName.getText().isEmpty() || this.fieldDescription.getText().isEmpty() || this.fieldRelease.getText().isEmpty()) {
-            showMessageDialog(this, "Por favor, preencha todos os campos!");
+        String auxDate = this.fieldRelease.getText().replace("/", "").replace("_", "");
+        if (this.fieldName.getText().isEmpty() || this.fieldDescription.getText().isEmpty() || auxDate.isEmpty() || auxDate.length() < 8) {
+            showMessageDialog(this, "Por favor, preencha todos os campos de forma correta!");
         } else if (this.selectedId == 0) { //create
             try {
                 addMedia(this.fieldName.getText(), this.fieldDescription.getText(), this.fieldRelease.getText());

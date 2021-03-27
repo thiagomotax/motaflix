@@ -165,10 +165,11 @@ public class FormUser extends javax.swing.JPanel {
         // TODO add your handling code here:
         Object item = this.jComboParentalList.getSelectedItem();
         Integer value = ((Parental) item).getValue();
-
-        if (this.fieldName.getText().isEmpty() || this.fieldCPF.getText().isEmpty() || this.fieldDate.getText().isEmpty() || this.fieldEmail.getText().isEmpty() || this.fieldPassword.getText().isEmpty() || value == 0) {
-            showMessageDialog(this, "Por favor, preencha todos os campos! \n Dev message: Lembre-se de ter registros na tabela\nParental para serem selecionados\nno ComboBox de controle parental");
-        } else if (!CPF.isCPF((String)fieldCPF.getText().replace("-", "").replace(".", ""))) {
+        String auxDate = this.fieldDate.getText().replace("/", "").replace("_", "");
+        String auxCPF = this.fieldCPF.getText().replace("-", "").replace(".", "");
+        if (this.fieldName.getText().isEmpty() || auxCPF.isEmpty() || auxDate.isEmpty() || auxDate.length() < 8 || this.fieldEmail.getText().isEmpty() || this.fieldPassword.getText().isEmpty() || value == 0) {
+            showMessageDialog(this, "Por favor, preencha todos os campos de forma correta! \n Dev message: Lembre-se de ter registros na tabela\nParental para serem selecionados\nno ComboBox de controle parental");
+        } else if (!CPF.isCPF((String)auxCPF)) {
             showMessageDialog(this, "CPF invalido!");
         } else if (this.selectedId == 0) { //create
             try {
