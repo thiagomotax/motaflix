@@ -6,6 +6,7 @@
 package controllers;
 
 import dao.UserDAO;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import models.User;
@@ -31,5 +32,9 @@ public class UserController {
      
     public void delete(int id) throws SQLException{
         UserDAO.getInstance().delete(id);
+    }
+    
+    public ResultSet index() throws SQLException{
+        return UserDAO.getInstance().index();
     }
 }

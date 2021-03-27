@@ -6,6 +6,7 @@
 package controllers;
 
 import dao.MediaDAO;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import models.Media;
@@ -30,5 +31,9 @@ public class MediaController {
 
     public void delete(int id) throws SQLException {
         MediaDAO.getInstance().delete(id);
+    }
+
+    public ResultSet index() throws SQLException {
+        return MediaDAO.getInstance().index();
     }
 }

@@ -202,7 +202,8 @@ public class Medias extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void initTableData() throws SQLException {
-        ResultSet data = MediaDAO.getInstance().index();
+        MediaController controller = new MediaController();
+        ResultSet data = controller.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
 

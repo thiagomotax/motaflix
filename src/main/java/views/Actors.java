@@ -191,7 +191,8 @@ public class Actors extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        ResultSet data = ActorDAO.getInstance().index();
+        ActorController controller = new ActorController();
+        ResultSet data = controller.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
 

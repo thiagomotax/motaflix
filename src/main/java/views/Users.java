@@ -198,7 +198,8 @@ public class Users extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException, ParseException {
-        ResultSet data = UserDAO.getInstance().index();
+        UserController controller = new UserController();
+        ResultSet data = controller.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
 

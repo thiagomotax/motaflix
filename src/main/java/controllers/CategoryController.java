@@ -6,6 +6,7 @@
 package controllers;
 
 import dao.CategoryDAO;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import models.Category;
@@ -28,5 +29,9 @@ public class CategoryController {
 
     public void delete(int id) throws SQLException {
         CategoryDAO.getInstance().delete(id);
+    }
+    
+     public ResultSet index() throws SQLException{
+        return CategoryDAO.getInstance().index();
     }
 }

@@ -187,7 +187,8 @@ public class Categories extends javax.swing.JPanel {
     }
 
     private void initTableData() throws SQLException {
-        ResultSet data = CategoryDAO.getInstance().index();
+        CategoryController controller = new CategoryController();
+        ResultSet data = controller.index();
 
         DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
 
