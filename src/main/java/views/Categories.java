@@ -6,7 +6,6 @@
 package views;
 
 import controllers.CategoryController;
-import dao.CategoryDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;

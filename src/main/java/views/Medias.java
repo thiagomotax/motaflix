@@ -6,7 +6,6 @@
 package views;
 
 import controllers.MediaController;
-import dao.MediaDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;

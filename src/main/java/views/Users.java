@@ -6,7 +6,6 @@
 package views;
 
 import controllers.UserController;
-import dao.UserDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;

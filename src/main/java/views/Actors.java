@@ -6,7 +6,6 @@
 package views;
 
 import controllers.ActorController;
-import dao.ActorDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
