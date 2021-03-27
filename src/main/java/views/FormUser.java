@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import models.Parental;
+import utils.CPF;
 
 /**
  *
@@ -167,6 +168,8 @@ public class FormUser extends javax.swing.JPanel {
 
         if (this.fieldName.getText().isEmpty() || this.fieldCPF.getText().isEmpty() || this.fieldDate.getText().isEmpty() || this.fieldEmail.getText().isEmpty() || this.fieldPassword.getText().isEmpty() || value == 0) {
             showMessageDialog(this, "Por favor, preencha todos os campos! \n Dev message: Lembre-se de ter registros na tabela\nParental para serem selecionados\nno ComboBox de controle parental");
+        } else if (!CPF.isCPF((String)fieldCPF.getText().replace("-", "").replace(".", ""))) {
+            showMessageDialog(this, "CPF invalido!");
         } else if (this.selectedId == 0) { //create
             try {
                 addUser(this.fieldName.getText(), this.fieldCPF.getText(), this.fieldDate.getText(), this.fieldEmail.getText(), this.fieldPassword.getText());
@@ -223,7 +226,7 @@ public class FormUser extends javax.swing.JPanel {
 
         Object item = this.jComboParentalList.getSelectedItem();
         Integer value = ((Parental) item).getValue();
-        
+
         //update remote
         UserController controller = new UserController();
         controller.save((int) this.table.getModel().getValueAt(row, 0), name, cpf, birthday, email, password, value);
