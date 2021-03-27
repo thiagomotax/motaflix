@@ -6,9 +6,7 @@
 package views;
 
 import controllers.UserController;
-import dao.UserDAO;
 import dao.DatabaseConnectionDAO;
-import models.User;
 import java.awt.Color;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

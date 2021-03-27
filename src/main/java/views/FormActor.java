@@ -6,8 +6,6 @@
 package views;
 
 import controllers.ActorController;
-import dao.ActorDAO;
-import models.Actor;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;

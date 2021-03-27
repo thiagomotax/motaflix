@@ -6,8 +6,6 @@
 package views;
 
 import controllers.MediaController;
-import dao.MediaDAO;
-import models.Media;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;

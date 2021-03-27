@@ -6,8 +6,6 @@
 package views;
 
 import controllers.CategoryController;
-import dao.CategoryDAO;
-import models.Category;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -123,7 +121,6 @@ public class FormCategory extends javax.swing.JPanel {
             this.clearFields();
             this.setVisibility(false);
         } else { //update
-            Category category = new Category(this.selectedId, this.fieldName.getText());
             try {
                 editCategory(this.fieldName.getText());
             } catch (SQLException ex) {
