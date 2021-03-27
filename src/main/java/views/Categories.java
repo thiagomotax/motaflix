@@ -5,6 +5,7 @@
  */
 package views;
 
+import controllers.CategoryController;
 import dao.CategoryDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -163,6 +164,7 @@ public class Categories extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     public void deleteCategory(int row) throws SQLException {
+        CategoryController controller = new CategoryController();
         Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir a categoria?",
@@ -175,7 +177,8 @@ public class Categories extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableCategories.getModel();
-            CategoryDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
+            controller.delete((int) model.getValueAt(row, 0));
+
             int[] rows = tableCategories.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);

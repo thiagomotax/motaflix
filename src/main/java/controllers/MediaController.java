@@ -15,16 +15,20 @@ import models.Media;
  * @author T-Gamer
  */
 public class MediaController {
-    
-     public int save(int id, String name, String description, String release) throws SQLException, ParseException{
+
+    public int save(int id, String name, String description, String release) throws SQLException, ParseException {
         Media media = new Media();
         media.setId(id);
         media.setName(name);
         media.setDescription(description);
         media.setRelease(release);
-        
+
         MediaDAO dao = new MediaDAO();
-        
+
         return MediaDAO.getInstance().change(media);
+    }
+
+    public void delete(int id) throws SQLException {
+        MediaDAO.getInstance().delete(id);
     }
 }

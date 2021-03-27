@@ -5,6 +5,7 @@
  */
 package views;
 
+import controllers.UserController;
 import dao.UserDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -174,6 +175,7 @@ public class Users extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     public void deleteUser(int row) throws SQLException {
+        UserController controller = new UserController();
         Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir o usuário?",
@@ -186,7 +188,8 @@ public class Users extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableUsers.getModel();
-            UserDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
+            controller.delete((int) model.getValueAt(row, 0));
+
             int[] rows = tableUsers.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);

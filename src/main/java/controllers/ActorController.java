@@ -27,4 +27,8 @@ public class ActorController {
         
         return ActorDAO.getInstance().change(actor);
     }
+    
+      public void delete(int id) throws SQLException {
+        ActorDAO.getInstance().delete(id);
+    }
 }

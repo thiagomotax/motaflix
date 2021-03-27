@@ -5,6 +5,7 @@
  */
 package views;
 
+import controllers.ActorController;
 import dao.ActorDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -166,6 +167,8 @@ public class Actors extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     public void deleteContact(int row) throws SQLException {
+        ActorController controller = new ActorController();
+
         Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir o ator?",
@@ -178,7 +181,8 @@ public class Actors extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableActors.getModel();
-            ActorDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
+            controller.delete((int) model.getValueAt(row, 0));
+
             int[] rows = tableActors.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);

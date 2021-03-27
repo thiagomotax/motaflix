@@ -28,4 +28,8 @@ public class UserController {
         
         return UserDAO.getInstance().change(user);
     }
+     
+    public void delete(int id) throws SQLException{
+        UserDAO.getInstance().delete(id);
+    }
 }

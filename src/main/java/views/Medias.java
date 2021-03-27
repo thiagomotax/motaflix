@@ -5,6 +5,7 @@
  */
 package views;
 
+import controllers.MediaController;
 import dao.MediaDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -168,6 +169,8 @@ public class Medias extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     public void deleteMedia(int row) throws SQLException {
+        MediaController controller = new MediaController();
+
         Object[] options = {"Sim, remover", "Cancelar!"};
         int n = JOptionPane.showOptionDialog(this,
                 "Tem certeza que deseja excluir a mídia?",
@@ -180,7 +183,8 @@ public class Medias extends javax.swing.JPanel {
 
         if (n == JOptionPane.YES_OPTION) {
             DefaultTableModel model = (DefaultTableModel) this.tableMedias.getModel();
-            MediaDAO.getInstance().delete((Integer) model.getValueAt(row, 0));
+            controller.delete((int) model.getValueAt(row, 0));
+
             int[] rows = tableMedias.getSelectedRows();
             for (int i = 0; i < rows.length; i++) {
                 model.removeRow(rows[i] - i);
